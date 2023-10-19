@@ -2,9 +2,9 @@
 
 namespace Creode\LaravelAssets;
 
+use Creode\LaravelAssets\Commands\LaravelAssetsCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Creode\LaravelAssets\Commands\LaravelAssetsCommand;
 
 class LaravelAssetsServiceProvider extends PackageServiceProvider
 {
