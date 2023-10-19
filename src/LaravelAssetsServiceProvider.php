@@ -18,8 +18,6 @@ class LaravelAssetsServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-assets')
             ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_laravel-assets_table')
-            ->hasCommand(LaravelAssetsCommand::class);
+            ->hasMigration('create_assets_table');
     }
 }

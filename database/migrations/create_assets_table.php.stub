@@ -8,11 +8,9 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('laravel_assets_table', function (Blueprint $table) {
+        Schema::create('assets', function (Blueprint $table) {
             $table->id();
-
-            // add fields
-
+            $table->string('location');
             $table->timestamps();
         });
     }
