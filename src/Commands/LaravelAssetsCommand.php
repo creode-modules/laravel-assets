@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Creode\LaravelAssets\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class LaravelAssetsCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-assets';
 
     public $description = 'My command';
 
