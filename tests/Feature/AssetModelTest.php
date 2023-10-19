@@ -29,5 +29,5 @@ it('can get a url from a different filesystem', function () {
         'location' => $fileName,
     ]);
 
-    expect($asset->url)->toEqual($filesystemUrl . $fileName);
+    expect($asset->url)->toEqual($filesystemUrl.$fileName);
 });

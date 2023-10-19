@@ -3,7 +3,6 @@
 namespace Creode\LaravelAssets\Database\Factories;
 
 use Creode\LaravelAssets\Models\Asset;
-
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AssetFactory extends Factory
