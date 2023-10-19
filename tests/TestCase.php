@@ -2,9 +2,9 @@
 
 namespace Creode\LaravelAssets\Tests;
 
+use Creode\LaravelAssets\LaravelAssetsServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Creode\LaravelAssets\LaravelAssetsServiceProvider;
 
 class TestCase extends Orchestra
 {
