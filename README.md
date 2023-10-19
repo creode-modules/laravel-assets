@@ -18,34 +18,39 @@ composer require creode/laravel-assets
 You can publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-assets-migrations"
+php artisan vendor:publish --tag="assets-migrations"
 php artisan migrate
 ```
 
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-assets-config"
+php artisan vendor:publish --tag="assets-config"
 ```
 
 This is the contents of the published config file:
 
 ```php
 return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Disk
+    |--------------------------------------------------------------------------
+    |
+    | This value is the name of the disk where assets will be stored. This can
+    | be any disk that you have configured in your filesystems.php config file.
+    |
+    */
+
+    'disk' => env('FILESYSTEM_DISK', 'public'),
 ];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="laravel-assets-views"
 ```
 
 ## Usage
 
 ```php
-$laravelAssets = new Creode\LaravelAssets();
-echo $laravelAssets->echoPhrase('Hello, Creode!');
+$asset = new Creode\LaravelAssets\Models\Asset;
 ```
 
 ## Testing
