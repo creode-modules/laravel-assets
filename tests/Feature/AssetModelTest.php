@@ -29,7 +29,7 @@ it('can get a path from a different filesystem', function () {
         'location' => $fileName,
     ]);
 
-    expect($asset->path)->toEqual("$filesystemPath/$fileName");
+    expect($asset->path)->toEqual($filesystemPath . DIRECTORY_SEPARATOR . $fileName);
 });
 
 it('can get a url from a different filesystem', function () {
