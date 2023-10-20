@@ -51,6 +51,12 @@ return [
 
 ```php
 $asset = new Creode\LaravelAssets\Models\Asset;
+
+// You can get the asset location from disk using a path.
+$asset->path;
+
+// You can get the url property of the asset.
+$asset->url;
 ```
 
 ## Testing

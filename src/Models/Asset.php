@@ -11,7 +11,15 @@ class Asset extends Model
 {
     use HasFactory;
 
-    protected function url(): Attribute
+    public function path(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) => Storage::disk(config('assets.disk'))
+                ->path($attributes['location']),
+        );
+    }
+
+    public function url(): Attribute
     {
         return Attribute::make(
             get: fn ($value, $attributes) => Storage::disk(config('assets.disk'))
