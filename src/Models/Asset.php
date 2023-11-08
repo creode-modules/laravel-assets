@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Storage;
 
 class Asset extends Model
 {
-
     protected array $mime_types = [
         'image/jpeg',
         'image/png',
