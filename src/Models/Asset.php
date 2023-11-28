@@ -9,14 +9,6 @@ use Illuminate\Support\Facades\Storage;
 
 class Asset extends Model
 {
-    protected array $mime_types = [
-        'image/jpeg',
-        'image/png',
-        'image/gif',
-        'image/tif',
-        'image/webp',
-    ];
-
     use HasFactory;
 
     public function path(): Attribute
@@ -37,6 +29,6 @@ class Asset extends Model
 
     public function isImage($asset): bool
     {
-        return in_array($asset, $this->mime_types);
+        return in_array($asset, config('assets.image_mime_types'));
     }
 }
