@@ -31,4 +31,16 @@ return [
         'image/tif',
         'image/webp',
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Asset Model
+    |--------------------------------------------------------------------------
+    |
+    | The model class to be used when interacting with assets. The model must
+    | extend the Creode\LaravelAssets\Models\Asset class.
+    |
+    */
+
+    'asset_model' => \Creode\LaravelAssets\Models\Asset::class,
 ];
