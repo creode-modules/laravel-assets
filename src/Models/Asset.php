@@ -11,6 +11,8 @@ class Asset extends Model
 {
     use HasFactory;
 
+    protected $table = 'assets';
+
     public function path(): Attribute
     {
         return Attribute::make(
