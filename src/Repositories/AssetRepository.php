@@ -3,9 +3,10 @@
 namespace Creode\LaravelAssets\Repositories;
 
 use Creode\LaravelAssets\Models\Asset;
+use Creode\LaravelRepository\BaseRepository;
 use Illuminate\Database\Eloquent\Collection;
 
-class AssetRepository
+class AssetRepository extends BaseRepository
 {
     /**
      * Gets a collection of all assets.
@@ -14,7 +15,7 @@ class AssetRepository
      */
     public function getAll(): Collection
     {
-        return ($this->getAssetClass())::all();
+        return ($this->getModel())::all();
     }
 
     /**
@@ -25,7 +26,7 @@ class AssetRepository
      */
     public function getById(int $id): Asset
     {
-        return ($this->getAssetClass())::find($id);
+        return ($this->getModel())::find($id);
     }
 
     /**
@@ -36,7 +37,7 @@ class AssetRepository
      */
     public function create(array $data): Asset
     {
-        return ($this->getAssetClass())::create($data);
+        return ($this->getModel())::create($data);
     }
 
     /**
@@ -48,7 +49,7 @@ class AssetRepository
      */
     public function update(int $id, array $data): bool
     {
-        return ($this->getAssetClass())::find($id)->update($data);
+        return ($this->getModel())::find($id)->update($data);
     }
 
     /**
@@ -59,7 +60,7 @@ class AssetRepository
      */
     public function delete(int $id): int
     {
-        return ($this->getAssetClass())::destroy($id);
+        return ($this->getModel())::destroy($id);
     }
 
     /**
@@ -67,7 +68,7 @@ class AssetRepository
      *
      * @return \Creode\LaravelAssets\Models\Asset
      */
-    protected function getAssetClass()
+    protected function getModel(): string
     {
         $class = config('assets.asset_model');
 
