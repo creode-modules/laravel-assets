@@ -32,8 +32,6 @@ class Asset extends Model
 
     /**
      * Gets the path to the asset.
-     *
-     * @return Attribute
      */
     public function path(): Attribute
     {
@@ -45,8 +43,6 @@ class Asset extends Model
 
     /**
      * Gets the assets url.
-     *
-     * @return Attribute
      */
     public function url(): Attribute
     {
@@ -58,10 +54,6 @@ class Asset extends Model
 
     /**
      * Determines if the asset is an image.
-     *
-     * @param string $mimeType
-     *
-     * @return boolean
      */
     public function isImage(string $mimeType): bool
     {
