@@ -10,8 +10,6 @@ class AssetRepository extends BaseRepository
 {
     /**
      * Gets a collection of all assets.
-     *
-     * @return Collection
      */
     public function getAll(): Collection
     {
@@ -20,9 +18,6 @@ class AssetRepository extends BaseRepository
 
     /**
      * Gets a single asset by ID.
-     *
-     * @param integer $id
-     * @return Asset
      */
     public function getById(int $id): Asset
     {
@@ -31,9 +26,6 @@ class AssetRepository extends BaseRepository
 
     /**
      * Creates a single asset.
-     *
-     * @param array $data
-     * @return Asset
      */
     public function create(array $data): Asset
     {
@@ -42,10 +34,6 @@ class AssetRepository extends BaseRepository
 
     /**
      * Updates a single asset.
-     *
-     * @param integer $id
-     * @param array $data
-     * @return boolean
      */
     public function update(int $id, array $data): bool
     {
@@ -54,9 +42,6 @@ class AssetRepository extends BaseRepository
 
     /**
      * Deletes an asset.
-     *
-     * @param integer $id
-     * @return integer
      */
     public function delete(int $id): int
     {
