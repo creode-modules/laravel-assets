@@ -26,7 +26,9 @@ class Asset extends Model
     protected static function booted()
     {
         static::deleting(function ($asset) {
-            Storage::disk($asset->disk)->delete($asset->location);
+            if (Storage::disk(config('assets.disk', 'public'))->exists($asset->location)) {
+                Storage::disk(config('assets.disk', 'public'))->delete($asset->location);
+            }
         });
     }
 
@@ -36,7 +38,7 @@ class Asset extends Model
     public function path(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => Storage::disk($this->disk)
+            get: fn ($value, $attributes) => Storage::disk(config('assets.disk', 'public'))
                 ->path($attributes['location']),
         );
     }
@@ -47,7 +49,7 @@ class Asset extends Model
     public function url(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => Storage::disk($this->disk)
+            get: fn ($value, $attributes) => Storage::disk(config('assets.disk', 'public'))
                 ->url($attributes['location']),
         );
     }

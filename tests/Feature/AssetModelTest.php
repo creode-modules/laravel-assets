@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Storage;
 
 uses(RefreshDatabase::class);
 
@@ -32,7 +31,6 @@ it('can get a path from the asset filesystem', function () {
     $fileName = 'test.jpg';
     $asset = \Creode\LaravelAssets\Models\Asset::factory()->create([
         'location' => $fileName,
-        'disk' => 'testing',
     ]);
 
     expect($asset->path)->toEqual($filesystemPath.DIRECTORY_SEPARATOR.$fileName);
@@ -59,7 +57,6 @@ it('can get a url of a file', function () {
     $fileName = 'test.jpg';
     $asset = \Creode\LaravelAssets\Models\Asset::factory()->create([
         'location' => $fileName,
-        'disk' => $diskName,
     ]);
 
     expect($asset->url)->toEqual($filesystemUrl.$fileName);
@@ -68,15 +65,19 @@ it('can get a url of a file', function () {
 it('can delete an asset file when the model is deleted', function () {
     \Illuminate\Support\Facades\Storage::fake('testing');
 
-    \Illuminate\Support\Facades\Storage::disk('testing')->put('test.jpg', 'test.jpg');
+    $diskName = 'testing';
+
+    // Set the asset disk to use the custom filesystem.
+    \Illuminate\Support\Facades\Config::set('assets.disk', $diskName);
+
+    \Illuminate\Support\Facades\Storage::disk($diskName)->put('test.jpg', 'test.jpg');
 
     $fileName = 'test.jpg';
     $asset = \Creode\LaravelAssets\Models\Asset::factory()->create([
         'location' => $fileName,
-        'disk' => 'testing',
     ]);
 
     $asset->delete();
 
-    expect(\Illuminate\Support\Facades\Storage::disk('testing')->exists($fileName))->toBeFalse();
+    expect(\Illuminate\Support\Facades\Storage::disk($diskName)->exists($fileName))->toBeFalse();
 });

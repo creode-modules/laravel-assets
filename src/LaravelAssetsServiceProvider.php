@@ -20,6 +20,7 @@ class LaravelAssetsServiceProvider extends PackageServiceProvider
             ->hasMigrations([
                 'create_assets_table',
                 'add_disk_field',
+                'remove_disk_field',
             ])
             ->runsMigrations();
     }
