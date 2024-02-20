@@ -65,7 +65,12 @@ it('can get a url of a file', function () {
 it('can delete an asset file when the model is deleted', function () {
     \Illuminate\Support\Facades\Storage::fake('testing');
 
-    \Illuminate\Support\Facades\Storage::disk('testing')->put('test.jpg', 'test.jpg');
+    $diskName = 'testing';
+
+    // Set the asset disk to use the custom filesystem.
+    \Illuminate\Support\Facades\Config::set('assets.disk', $diskName);
+
+    \Illuminate\Support\Facades\Storage::disk($diskName)->put('test.jpg', 'test.jpg');
 
     $fileName = 'test.jpg';
     $asset = \Creode\LaravelAssets\Models\Asset::factory()->create([
@@ -74,5 +79,5 @@ it('can delete an asset file when the model is deleted', function () {
 
     $asset->delete();
 
-    expect(\Illuminate\Support\Facades\Storage::disk('testing')->exists($fileName))->toBeFalse();
+    expect(\Illuminate\Support\Facades\Storage::disk($diskName)->exists($fileName))->toBeFalse();
 });
