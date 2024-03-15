@@ -1,6 +1,6 @@
 preset: package
 
-namespace: PackageName
+namespace: Creode\LaravelAssets
 user-auth-model: App\Models\User
 
 paths:
@@ -15,13 +15,13 @@ migration:
   prefix: ''
 
 console:
-  namespace: PackageName\Console
+  namespace: Creode\LaravelAssets\Console
 
 model:
-  namespace: PackageName\Models
+  namespace: Creode\LaravelAssets\Models
 
 provider:
-  namespace: PackageName\Providers
+  namespace: Creode\LaravelAssets\Providers
 
 testing:
-  namespace: PackageName\Tests
+  namespace: Creode\LaravelAssets\Tests
