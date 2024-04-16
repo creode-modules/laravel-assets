@@ -59,6 +59,54 @@ $asset->path;
 $asset->url;
 ```
 
+### Custom Thumbnail Generation
+The ThumbnailGenerator allows for the registration of custom thumbnail generators to handle different asset types. This extensibility ensures that your application can easily adapt to new file types or specific thumbnail generation requirements.
+
+#### Example
+
+Here's a complete example of registering and using a custom thumbnail generator:
+
+```php
+// CustomThumbnailGenerator.php
+
+namespace App\ThumbnailGenerators;
+use App\Contracts\ThumbnailGeneratorInterface;
+use App\Models\Asset;
+
+class CustomThumbnailGenerator implements ThumbnailGeneratorInterface
+{
+    public function createThumbnail(Asset $asset, $dimensions): string
+    {
+        // Implement custom thumbnail generation logic
+    }
+}
+```
+
+```php
+// AppServiceProvider.php
+
+namespace App\Providers;
+use Illuminate\Support\ServiceProvider;
+use App\Support\ThumbnailGeneratorFactory;
+use App\ThumbnailGenerators\CustomThumbnailGenerator;
+
+class AppServiceProvider extends ServiceProvider
+{
+    public function boot()
+    {
+        // Resolve the factory from the container
+        $factory = $this->app->make('assets.thumbnail.factory');
+
+        // Register your custom thumbnail generator
+        $factory->extend('mime_type', function() {
+            return new CustomThumbnailGenerator();
+        });
+    }
+}
+```
+
+By integrating the custom generator as shown above, your application will now respond to the needs of different asset types and thumbnail generation strategies, while maintaining a clean and modular architecture.
+
 ## Testing
 
 ```bash

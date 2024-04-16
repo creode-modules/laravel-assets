@@ -2,10 +2,11 @@
 
 namespace Creode\LaravelAssets\Models;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Creode\LaravelAssets\Events\ThumbnailWasGenerated;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Asset extends Model
 {
@@ -55,10 +56,37 @@ class Asset extends Model
     }
 
     /**
+     * Get the thumbnail url for the asset.
+     *
+     * @return Attribute
+     */
+    public function thumbnailUrl(): Attribute {
+        return Attribute::make(
+            get: function(mixed $value) {
+                $factory = resolve('assets.thumbnail.factory');
+
+                // Use the factory to obtain the correct ThumbnailGenerator for this asset
+                $generator = $factory->getGenerator($this);
+
+                // Create and return the thumbnail using the generator
+                $thumbnailUrl = $generator->generateThumbnailUrl($this);
+                if (!$thumbnailUrl) {
+                    return null;
+                }
+
+                $event = new ThumbnailWasGenerated($thumbnailUrl, $this);
+                event($event);
+
+                return $event->thumbnailUrl;
+            }
+        );
+    }
+
+    /**
      * Determines if the asset is an image.
      */
-    public function isImage(string $mimeType): bool
+    public function isImage(): bool
     {
-        return in_array($mimeType, config('assets.image_mime_types'));
+        return in_array($this->mime_type, config('assets.image_mime_types'));
     }
 }
