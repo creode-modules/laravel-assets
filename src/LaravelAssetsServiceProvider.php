@@ -2,11 +2,24 @@
 
 namespace Creode\LaravelAssets;
 
+use Creode\LaravelAssets\Support\ThumbnailGeneratorFactory;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class LaravelAssetsServiceProvider extends PackageServiceProvider
 {
+    /**
+     * Registers classes into the service container.
+     */
+    public function register()
+    {
+        parent::register();
+
+        $this->app->singleton('assets.thumbnail.factory', function () {
+            return new ThumbnailGeneratorFactory();
+        });
+    }
+
     public function configurePackage(Package $package): void
     {
         /*

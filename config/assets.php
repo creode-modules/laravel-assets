@@ -43,4 +43,15 @@ return [
     */
 
     'asset_model' => \Creode\LaravelAssets\Models\Asset::class,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Thumbnail Disk
+    |--------------------------------------------------------------------------
+    |
+    | The Disk used to store thumbnails. This can be any disk that you have
+    | configured within your filesystems config file.
+    |
+     */
+    'thumbnail_disk' => env('ASSET_THUMBNAIL_DISK', 'public'),
 ];
