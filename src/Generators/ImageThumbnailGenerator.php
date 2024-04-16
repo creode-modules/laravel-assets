@@ -10,6 +10,14 @@ class ImageThumbnailGenerator implements ThumbnailGeneratorInterface
     /**
      * {@inheritdoc}
      */
+    public function getOutputType(): string
+    {
+        return 'image';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function generateThumbnailUrl(Asset $asset): string
     {
         return $asset->url;
