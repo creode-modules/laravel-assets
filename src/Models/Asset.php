@@ -2,6 +2,7 @@
 
 namespace Creode\LaravelAssets\Models;
 
+use Creode\LaravelAssets\Traits\HasThumbnail;
 use Creode\LaravelAssets\Events\ThumbnailWasGenerated;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 class Asset extends Model
 {
-    use HasFactory;
+    use HasFactory, HasThumbnail;
 
     /**
      * Sets the table for all models extending this model.
@@ -52,32 +53,6 @@ class Asset extends Model
         return Attribute::make(
             get: fn ($value, $attributes) => Storage::disk(config('assets.disk', 'public'))
                 ->url($attributes['location']),
-        );
-    }
-
-    /**
-     * Get the thumbnail url for the asset.
-     */
-    public function thumbnailUrl(): Attribute
-    {
-        return Attribute::make(
-            get: function (mixed $value) {
-                $factory = resolve('assets.thumbnail.factory');
-
-                // Use the factory to obtain the correct ThumbnailGenerator for this asset
-                $generator = $factory->getGenerator($this);
-
-                // Create and return the thumbnail using the generator
-                $thumbnailUrl = $generator->generateThumbnailUrl($this);
-                if (! $thumbnailUrl) {
-                    return null;
-                }
-
-                $event = new ThumbnailWasGenerated($thumbnailUrl, $this);
-                event($event);
-
-                return $event->thumbnailUrl;
-            }
         );
     }
 

@@ -11,6 +11,13 @@ class PDFThumbnailGenerator implements ThumbnailGeneratorInterface
     /**
      * {@inheritdoc}
      */
+    public function getOutputType(): string {
+        return 'image';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function generateThumbnailUrl(Asset $asset): ?string
     {
         // We need to have imagick installed to use this generator.
