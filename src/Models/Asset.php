@@ -3,7 +3,6 @@
 namespace Creode\LaravelAssets\Models;
 
 use Creode\LaravelAssets\Traits\HasThumbnail;
-use Creode\LaravelAssets\Events\ThumbnailWasGenerated;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

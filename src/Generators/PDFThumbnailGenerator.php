@@ -11,7 +11,8 @@ class PDFThumbnailGenerator implements ThumbnailGeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function getOutputType(): string {
+    public function getOutputType(): string
+    {
         return 'image';
     }
 

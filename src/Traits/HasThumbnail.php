@@ -2,16 +2,15 @@
 
 namespace Creode\LaravelAssets\Traits;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Creode\LaravelAssets\Events\ThumbnailWasGenerated;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
-trait HasThumbnail {
+trait HasThumbnail
+{
     /**
      * @deprecated 1.7.0 Use the `thumbnail` helper instead.
      *
      * Get the thumbnail url for the asset.
-     *
-     * @return Attribute
      */
     public function thumbnailUrl(): Attribute
     {
@@ -26,8 +25,6 @@ trait HasThumbnail {
 
     /**
      * Add thumbnail functionality to the asset.
-     *
-     * @return Attribute
      */
     public function thumbnail(): Attribute
     {

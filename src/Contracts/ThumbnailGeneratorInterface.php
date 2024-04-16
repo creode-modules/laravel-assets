@@ -13,8 +13,6 @@ interface ThumbnailGeneratorInterface
 
     /**
      * Gets the type of output this generator produces.
-     *
-     * @return string
      */
     public function getOutputType(): string;
 }
