@@ -2,11 +2,11 @@
 
 namespace Creode\LaravelAssets\Models;
 
+use Creode\LaravelAssets\Events\ThumbnailWasGenerated;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Creode\LaravelAssets\Events\ThumbnailWasGenerated;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Asset extends Model
 {
@@ -57,12 +57,11 @@ class Asset extends Model
 
     /**
      * Get the thumbnail url for the asset.
-     *
-     * @return Attribute
      */
-    public function thumbnailUrl(): Attribute {
+    public function thumbnailUrl(): Attribute
+    {
         return Attribute::make(
-            get: function(mixed $value) {
+            get: function (mixed $value) {
                 $factory = resolve('assets.thumbnail.factory');
 
                 // Use the factory to obtain the correct ThumbnailGenerator for this asset
@@ -70,7 +69,7 @@ class Asset extends Model
 
                 // Create and return the thumbnail using the generator
                 $thumbnailUrl = $generator->generateThumbnailUrl($this);
-                if (!$thumbnailUrl) {
+                if (! $thumbnailUrl) {
                     return null;
                 }
 

@@ -2,10 +2,10 @@
 
 namespace Creode\LaravelAssets\Support;
 
-use Creode\LaravelAssets\Models\Asset;
-use Creode\LaravelAssets\Generators\PDFThumbnailGenerator;
-use Creode\LaravelAssets\Generators\ImageThumbnailGenerator;
 use Creode\LaravelAssets\Contracts\ThumbnailGeneratorInterface;
+use Creode\LaravelAssets\Generators\ImageThumbnailGenerator;
+use Creode\LaravelAssets\Generators\PDFThumbnailGenerator;
+use Creode\LaravelAssets\Models\Asset;
 
 class ThumbnailGeneratorFactory
 {
@@ -18,8 +18,6 @@ class ThumbnailGeneratorFactory
 
     /**
      * Constructor for class.
-     *
-     * @param ThumbnailGeneratorInterface|null $defaultGenerator
      */
     public function __construct(protected ?ThumbnailGeneratorInterface $defaultGenerator = null)
     {
@@ -28,8 +26,8 @@ class ThumbnailGeneratorFactory
     /**
      * Add a custom generator to the factory.
      *
-     * @param string $mime_type The mime type used for generation.
-     * @param callable $generator
+     * @param  string  $mime_type  The mime type used for generation.
+     * @param  callable  $generator
      * @return void
      */
     public function addGenerator($mimeType, $generator)
@@ -40,7 +38,8 @@ class ThumbnailGeneratorFactory
     /**
      * Get the thumbnail generator for a provided asset.
      */
-    public function getGenerator(Asset $asset): ?ThumbnailGeneratorInterface {
+    public function getGenerator(Asset $asset): ?ThumbnailGeneratorInterface
+    {
         // Use image.
         if ($asset->isImage()) {
             return new ImageThumbnailGenerator();
