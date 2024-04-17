@@ -48,7 +48,7 @@ trait HasThumbnail
                 event($event);
 
                 return [
-                    'url' => $thumbnailUrl,
+                    'url' => $event->thumbnailUrl,
                     'generator' => get_class($generator),
                     'type' => $generator->getOutputType(),
                 ];
