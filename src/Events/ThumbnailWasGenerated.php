@@ -2,6 +2,8 @@
 
 namespace Creode\LaravelAssets\Events;
 
+use Creode\LaravelAssets\Contracts\ThumbnailGeneratorInterface;
+
 class ThumbnailWasGenerated
 {
     /**
@@ -10,7 +12,7 @@ class ThumbnailWasGenerated
      * @param  string  $thumbnailUrl
      * @param  \Creode\LaravelAssets\Models\Asset  $asset
      */
-    public function __construct(public $thumbnailUrl, public $asset)
+    public function __construct(protected ThumbnailGeneratorInterface $generator, public $thumbnailUrl, public $asset)
     {
     }
 }

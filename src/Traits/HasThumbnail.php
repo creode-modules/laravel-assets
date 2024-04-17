@@ -34,6 +34,9 @@ trait HasThumbnail
 
                 // Use the factory to obtain the correct ThumbnailGenerator for this asset
                 $generator = $factory->getGenerator($this);
+                if (! $generator) {
+                    return null;
+                }
 
                 // Create and return the thumbnail using the generator
                 $thumbnailUrl = $generator->generateThumbnailUrl($this);
@@ -41,11 +44,11 @@ trait HasThumbnail
                     return null;
                 }
 
-                $event = new ThumbnailWasGenerated($thumbnailUrl, $this);
+                $event = new ThumbnailWasGenerated($generator, $thumbnailUrl, $this);
                 event($event);
 
                 return [
-                    'url' => $thumbnailUrl,
+                    'url' => $event->thumbnailUrl,
                     'generator' => get_class($generator),
                     'type' => $generator->getOutputType(),
                 ];
