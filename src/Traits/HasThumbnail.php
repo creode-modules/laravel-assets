@@ -34,7 +34,7 @@ trait HasThumbnail
 
                 // Use the factory to obtain the correct ThumbnailGenerator for this asset
                 $generator = $factory->getGenerator($this);
-                if (!$generator) {
+                if (! $generator) {
                     return null;
                 }
 
