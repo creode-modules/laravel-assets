@@ -67,17 +67,24 @@ The ThumbnailGenerator allows for the registration of custom thumbnail generator
 Here's a complete example of registering and using a custom thumbnail generator:
 
 ```php
-// CustomThumbnailGenerator.php
+namespace App\Generators;
 
-namespace App\ThumbnailGenerators;
-use App\Contracts\ThumbnailGeneratorInterface;
-use App\Models\Asset;
+use Creode\LaravelAssets\Generators\PDFThumbnailGenerator;
 
-class CustomThumbnailGenerator implements ThumbnailGeneratorInterface
+class EPSThumbnailGenerator implements ThumbnailGeneratorInterface
 {
-    public function createThumbnail(Asset $asset, $dimensions): string
-    {
-        // Implement custom thumbnail generation logic
+    /**
+     * Generates a thumbnail url for an asset.
+     */
+    public function generateThumbnailUrl(Asset $asset): ?string {
+        // Custom logic to generate a thumbnail for an EPS file.
+    }
+
+    /**
+     * Gets the type of output this generator produces.
+     */
+    public function getOutputType(): string {
+        return 'image'; // typically 'image' or 'icon'.
     }
 }
 ```
@@ -87,19 +94,16 @@ class CustomThumbnailGenerator implements ThumbnailGeneratorInterface
 
 namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
-use App\Support\ThumbnailGeneratorFactory;
-use App\ThumbnailGenerators\CustomThumbnailGenerator;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        // Resolve the factory from the container
-        $factory = $this->app->make('assets.thumbnail.factory');
+        // Add an EPS thumbnail generator.
+        $generator = resolve('assets.thumbnail.factory');
 
-        // Register your custom thumbnail generator
-        $factory->extend('mime_type', function() {
-            return new CustomThumbnailGenerator();
+        $generator->addGenerator('image/x-eps', function () {
+            return new \App\Generators\EPSThumbnailGenerator();
         });
     }
 }
