@@ -19,7 +19,7 @@ class PDFThumbnailGenerator implements ThumbnailGeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generateThumbnailUrl(Asset $asset): ?string
+    public function generateThumbnailUrl(Asset $asset, ?string $thumbnailPath): ?string
     {
         // We need to have imagick installed to use this generator.
         if (! extension_loaded('imagick')) {
@@ -36,15 +36,10 @@ class PDFThumbnailGenerator implements ThumbnailGeneratorInterface
             return null;
         }
 
-        // Look for the file.
-        $imageName = $this->generateThumbnailFileName($asset->url);
+        // Create the thumbnail.
+        $this->createThumbnail($asset->url, $thumbnailPath);
 
-        // If we can't find the thumbnail, create it.
-        if (! Storage::disk(config('assets.thumbnail_disk', 'public'))->exists($imageName)) {
-            $this->createThumbnail($asset->url, $imageName);
-        }
-
-        return Storage::disk(config('assets.thumbnail_disk', 'public'))->url($imageName);
+        return Storage::disk(config('assets.thumbnail_disk', 'public'))->url($thumbnailPath);
     }
 
     /**
@@ -59,7 +54,7 @@ class PDFThumbnailGenerator implements ThumbnailGeneratorInterface
             // The file needs to be stored locally before Imagick can process it.
             $tempPdfPath = $this->downloadPdfToTemporaryPath($assetUrl);
 
-            $im = new \Imagick();
+            $im = new \Imagick;
             $im->readImage(Storage::path($tempPdfPath).'[0]');
             $im->setResolution(300, 300);
             $im->setImageBackgroundColor('white');
@@ -93,17 +88,6 @@ class PDFThumbnailGenerator implements ThumbnailGeneratorInterface
     protected function deletePdfFromTemporaryPath(string $tempPdfPath): void
     {
         Storage::delete($tempPdfPath);
-    }
-
-    /**
-     * Generate a thumbnail file name.
-     *
-     *
-     * @return string
-     */
-    protected function generateThumbnailFileName(string $assetUrl)
-    {
-        return md5(basename($assetUrl)).'.jpg';
     }
 
     /**

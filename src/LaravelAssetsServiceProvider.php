@@ -2,6 +2,7 @@
 
 namespace Creode\LaravelAssets;
 
+use Creode\LaravelAssets\Commands\GenerateAssetThumbnails;
 use Creode\LaravelAssets\Support\ThumbnailGeneratorFactory;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -16,7 +17,7 @@ class LaravelAssetsServiceProvider extends PackageServiceProvider
         parent::register();
 
         $this->app->singleton('assets.thumbnail.factory', function () {
-            return new ThumbnailGeneratorFactory();
+            return new ThumbnailGeneratorFactory;
         });
     }
 
@@ -34,7 +35,9 @@ class LaravelAssetsServiceProvider extends PackageServiceProvider
                 'create_assets_table',
                 'add_disk_field',
                 'remove_disk_field',
+                '2025_03_28_144235_create_thumbnail_field',
             ])
+            ->hasCommand(GenerateAssetThumbnails::class)
             ->runsMigrations();
     }
 }

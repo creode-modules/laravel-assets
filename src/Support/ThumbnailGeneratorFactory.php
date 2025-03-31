@@ -19,9 +19,7 @@ class ThumbnailGeneratorFactory
     /**
      * Constructor for class.
      */
-    public function __construct(protected ?ThumbnailGeneratorInterface $defaultGenerator = null)
-    {
-    }
+    public function __construct(protected ?ThumbnailGeneratorInterface $defaultGenerator = null) {}
 
     /**
      * Add a custom generator to the factory.
@@ -42,13 +40,13 @@ class ThumbnailGeneratorFactory
     {
         // Use image.
         if ($asset->isImage()) {
-            return new ImageThumbnailGenerator();
+            return new ImageThumbnailGenerator;
         }
 
         // Check and process the mime type.
         switch ($asset->mime_type) {
             case 'application/pdf':
-                return new PDFThumbnailGenerator();
+                return new PDFThumbnailGenerator;
         }
 
         // Check if a custom generator is registered and return it
