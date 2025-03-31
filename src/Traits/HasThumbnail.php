@@ -17,7 +17,7 @@ trait HasThumbnail
      */
     public static function bootHasThumbnail()
     {
-        static::saving(function (Model $asset) {
+        static::saved(function (Model $asset) {
             if (! $asset->shouldUpdateOnSave) {
                 return;
             }
