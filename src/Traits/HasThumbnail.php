@@ -54,7 +54,7 @@ trait HasThumbnail
         return Attribute::make(
             get: function (mixed $value) {
                 return [
-                    'url' => Storage::disk(config('assets.thumbnail_disk', 'public'))->url($this->thumbnail_path),
+                    'url' => $this->thumbnail_path ? Storage::disk(config('assets.thumbnail_disk', 'public'))->url($this->thumbnail_path) : null,
                     'type' => $this->thumbnail_type,
                 ];
             }
