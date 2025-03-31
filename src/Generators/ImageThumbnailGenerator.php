@@ -2,9 +2,9 @@
 
 namespace Creode\LaravelAssets\Generators;
 
+use Creode\LaravelAssets\Contracts\ThumbnailGeneratorInterface;
 use Creode\LaravelAssets\Models\Asset;
 use Illuminate\Support\Facades\Storage;
-use Creode\LaravelAssets\Contracts\ThumbnailGeneratorInterface;
 
 class ImageThumbnailGenerator implements ThumbnailGeneratorInterface
 {

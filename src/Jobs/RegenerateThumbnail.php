@@ -3,8 +3,8 @@
 namespace Creode\LaravelAssets\Jobs;
 
 use Creode\LaravelAssets\Models\Asset;
-use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Queue\Queueable;
 
 class RegenerateThumbnail implements ShouldQueue
 {
@@ -12,8 +12,6 @@ class RegenerateThumbnail implements ShouldQueue
 
     /**
      * Constructor for class.
-     *
-     * @param Asset $asset
      */
     public function __construct(
         public Asset $asset
@@ -24,7 +22,8 @@ class RegenerateThumbnail implements ShouldQueue
      *
      * @return void
      */
-    public function handle() {
+    public function handle()
+    {
         $this->asset->deleteThumbnail();
         $this->asset->generateThumbnail();
         $this->asset->saveWithoutGeneratingThumbnail();

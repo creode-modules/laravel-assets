@@ -2,18 +2,16 @@
 
 namespace Creode\LaravelAssets\Support;
 
-use Creode\LaravelAssets\Models\Asset;
 use Creode\LaravelAssets\Events\ThumbnailWasGenerated;
+use Creode\LaravelAssets\Models\Asset;
 
-class ThumbnailGenerationService {
+class ThumbnailGenerationService
+{
     /**
      * Handles the generation of a thumbnail for a specific asset.
-     *
-     * @param Asset $asset
-     * @param string $thumbnailFilename
-     * @return array|null
      */
-    public function generateThumbnailForAsset(Asset $asset, string $thumbnailFilename): ?array {
+    public function generateThumbnailForAsset(Asset $asset, string $thumbnailFilename): ?array
+    {
         // Use the factory to obtain the correct ThumbnailGenerator for this asset
         $factory = resolve('assets.thumbnail.factory');
 

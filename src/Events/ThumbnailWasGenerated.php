@@ -12,7 +12,5 @@ class ThumbnailWasGenerated
      * @param  string  $thumbnailUrl
      * @param  \Creode\LaravelAssets\Models\Asset  $asset
      */
-    public function __construct(protected ThumbnailGeneratorInterface $generator, public $thumbnailUrl, public $asset)
-    {
-    }
+    public function __construct(protected ThumbnailGeneratorInterface $generator, public $thumbnailUrl, public $asset) {}
 }

@@ -54,7 +54,7 @@ class PDFThumbnailGenerator implements ThumbnailGeneratorInterface
             // The file needs to be stored locally before Imagick can process it.
             $tempPdfPath = $this->downloadPdfToTemporaryPath($assetUrl);
 
-            $im = new \Imagick();
+            $im = new \Imagick;
             $im->readImage(Storage::path($tempPdfPath).'[0]');
             $im->setResolution(300, 300);
             $im->setImageBackgroundColor('white');

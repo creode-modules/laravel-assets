@@ -2,11 +2,11 @@
 
 namespace Creode\LaravelAssets\Traits;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Creode\LaravelAssets\Jobs\RegenerateThumbnail;
 use Creode\LaravelAssets\Support\ThumbnailGenerationService;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 trait HasThumbnail
 {
@@ -15,7 +15,8 @@ trait HasThumbnail
     /**
      * Fire off when model is initialised.
      */
-    public static function bootHasThumbnail() {
+    public static function bootHasThumbnail()
+    {
         static::saving(function (Model $asset) {
             if (! $asset->shouldUpdateOnSave) {
                 return;
@@ -62,11 +63,10 @@ trait HasThumbnail
 
     /**
      * Generates a filename for thumbnail.
-     *
-     * @return string
      */
-    public function generateThumbnailFilename(): string {
-        return uniqid() . '.jpg';
+    public function generateThumbnailFilename(): string
+    {
+        return uniqid().'.jpg';
     }
 
     /**
@@ -74,9 +74,10 @@ trait HasThumbnail
      *
      * @return void
      */
-    public function deleteThumbnail() {
+    public function deleteThumbnail()
+    {
         // If we don't already have a thumbnail bail out.
-        if (!$this->thumbnail_path) {
+        if (! $this->thumbnail_path) {
             return;
         }
 
@@ -93,7 +94,8 @@ trait HasThumbnail
      *
      * @return void
      */
-    public function generateThumbnail() {
+    public function generateThumbnail()
+    {
         // Generate thumbnail.
         $filename = $this->generateThumbnailFilename($this);
 
@@ -111,7 +113,8 @@ trait HasThumbnail
      *
      * @return void
      */
-    public function saveWithoutGeneratingThumbnail() {
+    public function saveWithoutGeneratingThumbnail()
+    {
         $this->shouldUpdateOnSave = false;
         $this->save();
         $this->shouldUpdateOnSave = true;

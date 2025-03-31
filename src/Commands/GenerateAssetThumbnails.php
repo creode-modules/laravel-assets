@@ -2,9 +2,9 @@
 
 namespace Creode\LaravelAssets\Commands;
 
+use Creode\LaravelAssets\Repositories\AssetRepository;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Collection;
-use Creode\LaravelAssets\Repositories\AssetRepository;
 
 final class GenerateAssetThumbnails extends Command
 {
@@ -24,10 +24,9 @@ final class GenerateAssetThumbnails extends Command
 
     /**
      * Constructor for class.
-     *
-     * @param AssetRepository $assetRepository
      */
-    public function __construct(private AssetRepository $assetRepository) {
+    public function __construct(private AssetRepository $assetRepository)
+    {
         parent::__construct();
     }
 
@@ -44,10 +43,9 @@ final class GenerateAssetThumbnails extends Command
 
     /**
      * Functionality for getting assets from the
-     *
-     * @return Collection
      */
-    private function getAssets(): Collection {
+    private function getAssets(): Collection
+    {
         $assets = $this->assetRepository;
 
         if ($this->option('ids')) {
