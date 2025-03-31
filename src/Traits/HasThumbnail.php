@@ -2,11 +2,33 @@
 
 namespace Creode\LaravelAssets\Traits;
 
-use Creode\LaravelAssets\Events\ThumbnailWasGenerated;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Creode\LaravelAssets\Jobs\RegenerateThumbnail;
+use Creode\LaravelAssets\Support\ThumbnailGenerationService;
 
 trait HasThumbnail
 {
+    public $shouldUpdateOnSave = true;
+
+    /**
+     * Fire off when model is initialised.
+     */
+    public static function bootHasThumbnail() {
+        static::saving(function (Model $asset) {
+            if (! $asset->shouldUpdateOnSave) {
+                return;
+            }
+
+            RegenerateThumbnail::dispatch($asset);
+        });
+
+        static::deleting(function (Model $asset) {
+            $asset->deleteThumbnail();
+        });
+    }
+
     /**
      * @deprecated 1.7.0 Use the `thumbnail` helper instead.
      *
@@ -30,29 +52,68 @@ trait HasThumbnail
     {
         return Attribute::make(
             get: function (mixed $value) {
-                $factory = resolve('assets.thumbnail.factory');
-
-                // Use the factory to obtain the correct ThumbnailGenerator for this asset
-                $generator = $factory->getGenerator($this);
-                if (! $generator) {
-                    return null;
-                }
-
-                // Create and return the thumbnail using the generator
-                $thumbnailUrl = $generator->generateThumbnailUrl($this);
-                if (! $thumbnailUrl) {
-                    return null;
-                }
-
-                $event = new ThumbnailWasGenerated($generator, $thumbnailUrl, $this);
-                event($event);
-
                 return [
-                    'url' => $event->thumbnailUrl,
-                    'generator' => get_class($generator),
-                    'type' => $generator->getOutputType(),
+                    'url' => Storage::disk(config('assets.thumbnail_disk', 'public'))->url($this->thumbnail_path),
+                    'type' => $this->thumbnail_type,
                 ];
             }
         );
+    }
+
+    /**
+     * Generates a filename for thumbnail.
+     *
+     * @return string
+     */
+    public function generateThumbnailFilename(): string {
+        return uniqid() . '.jpg';
+    }
+
+    /**
+     * Handles the deletion of an existing thumbnail.
+     *
+     * @return void
+     */
+    public function deleteThumbnail() {
+        // If we don't already have a thumbnail bail out.
+        if (!$this->thumbnail_path) {
+            return;
+        }
+
+        // If the thumbnail provided doesn't exist bail out.
+        if (! Storage::disk(config('assets.thumbnail_disk', 'public'))->exists($this->thumbnail_path)) {
+            return;
+        }
+
+        Storage::disk(config('assets.thumbnail_disk', 'public'))->delete($this->thumbnail_path);
+    }
+
+    /**
+     * Handle thumbnail generation.
+     *
+     * @return void
+     */
+    public function generateThumbnail() {
+        // Generate thumbnail.
+        $filename = $this->generateThumbnailFilename($this);
+
+        // Generate.
+        $generationService = app()->make(ThumbnailGenerationService::class);
+        $thumbnail = $generationService->generateThumbnailForAsset($this, $filename);
+
+        // Save path.
+        $this->thumbnail_path = $filename;
+        $this->thumbnail_type = $thumbnail['type'];
+    }
+
+    /**
+     * Handles the saving of an Asset without regenerating it's thumbnail.
+     *
+     * @return void
+     */
+    public function saveWithoutGeneratingThumbnail() {
+        $this->shouldUpdateOnSave = false;
+        $this->save();
+        $this->shouldUpdateOnSave = true;
     }
 }

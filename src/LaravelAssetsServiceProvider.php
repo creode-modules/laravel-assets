@@ -2,9 +2,10 @@
 
 namespace Creode\LaravelAssets;
 
-use Creode\LaravelAssets\Support\ThumbnailGeneratorFactory;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Creode\LaravelAssets\Commands\GenerateAssetThumbnails;
+use Creode\LaravelAssets\Support\ThumbnailGeneratorFactory;
 
 class LaravelAssetsServiceProvider extends PackageServiceProvider
 {
@@ -34,7 +35,9 @@ class LaravelAssetsServiceProvider extends PackageServiceProvider
                 'create_assets_table',
                 'add_disk_field',
                 'remove_disk_field',
+                '2025_03_28_144235_create_thumbnail_field',
             ])
+            ->hasCommand(GenerateAssetThumbnails::class)
             ->runsMigrations();
     }
 }
