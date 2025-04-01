@@ -75,7 +75,11 @@ class PDFThumbnailGenerator implements ThumbnailGeneratorInterface
      */
     protected function downloadPdfToTemporaryPath(string $assetUrl): string
     {
-        $tempPdfPath = 'assets/tmp/asset-download';
+        // Get the file name.
+        $parsedUrl = parse_url($assetUrl, PHP_URL_PATH);
+        $tmpFileName = basename($parsedUrl);
+
+        $tempPdfPath = "assets/tmp/$tmpFileName";
         $pdf = file_get_contents($assetUrl);
         Storage::put($tempPdfPath, $pdf);
 
