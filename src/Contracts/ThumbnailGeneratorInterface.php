@@ -9,10 +9,15 @@ interface ThumbnailGeneratorInterface
     /**
      * Generates a thumbnail url for an asset.
      */
-    public function generateThumbnailUrl(Asset $asset, ?string $thumbnailPath): ?string;
+    public function generateThumbnailUrl(Asset $asset): ?string;
 
     /**
      * Gets the type of output this generator produces.
      */
     public function getOutputType(): string;
+
+    /**
+     * Gets the filename of the thumbnail.
+     */
+    public function getFilename(): ?string;
 }

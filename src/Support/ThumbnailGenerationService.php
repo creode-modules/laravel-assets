@@ -10,7 +10,7 @@ class ThumbnailGenerationService
     /**
      * Handles the generation of a thumbnail for a specific asset.
      */
-    public function generateThumbnailForAsset(Asset $asset, string $thumbnailFilename): ?array
+    public function generateThumbnailForAsset(Asset $asset): ?array
     {
         // Use the factory to obtain the correct ThumbnailGenerator for this asset
         $factory = resolve('assets.thumbnail.factory');
@@ -22,7 +22,7 @@ class ThumbnailGenerationService
         }
 
         // Create and return the thumbnail using the generator
-        $thumbnailUrl = $generator->generateThumbnailUrl($asset, $thumbnailFilename);
+        $thumbnailUrl = $generator->generateThumbnailUrl($asset);
         if (! $thumbnailUrl) {
             return null;
         }
@@ -34,6 +34,7 @@ class ThumbnailGenerationService
             'url' => $event->thumbnailUrl,
             'generator' => get_class($generator),
             'type' => $generator->getOutputType(),
+            'filename' => $generator->getFilename(),
         ];
     }
 }
