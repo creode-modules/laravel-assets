@@ -62,14 +62,6 @@ trait HasThumbnail
     }
 
     /**
-     * Generates a filename for thumbnail.
-     */
-    public function generateThumbnailFilename(): string
-    {
-        return uniqid().'.jpg';
-    }
-
-    /**
      * Handles the deletion of an existing thumbnail.
      *
      * @return void
@@ -96,15 +88,12 @@ trait HasThumbnail
      */
     public function generateThumbnail()
     {
-        // Generate thumbnail.
-        $filename = $this->generateThumbnailFilename($this);
-
         // Generate.
         $generationService = app()->make(ThumbnailGenerationService::class);
-        $thumbnail = $generationService->generateThumbnailForAsset($this, $filename);
+        $thumbnail = $generationService->generateThumbnailForAsset($this);
 
         // Save path.
-        $this->thumbnail_path = $filename;
+        $this->thumbnail_path = $thumbnail['filename'];
         $this->thumbnail_type = $thumbnail['type'];
     }
 

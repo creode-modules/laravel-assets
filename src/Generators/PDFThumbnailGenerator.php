@@ -2,24 +2,15 @@
 
 namespace Creode\LaravelAssets\Generators;
 
-use Creode\LaravelAssets\Contracts\ThumbnailGeneratorInterface;
 use Creode\LaravelAssets\Models\Asset;
 use Illuminate\Support\Facades\Storage;
 
-class PDFThumbnailGenerator implements ThumbnailGeneratorInterface
+class PDFThumbnailGenerator extends ImageThumbnailGenerator
 {
     /**
      * {@inheritdoc}
      */
-    public function getOutputType(): string
-    {
-        return 'image';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function generateThumbnailUrl(Asset $asset, ?string $thumbnailPath): ?string
+    public function generateThumbnailUrl(Asset $asset): ?string
     {
         // We need to have imagick installed to use this generator.
         if (! extension_loaded('imagick')) {
@@ -36,10 +27,13 @@ class PDFThumbnailGenerator implements ThumbnailGeneratorInterface
             return null;
         }
 
-        // Create the thumbnail.
-        $this->createThumbnail($asset->url, $thumbnailPath);
+        // Get the filename.
+        $filename = $this->getFilename();
 
-        return Storage::disk(config('assets.thumbnail_disk', 'public'))->url($thumbnailPath);
+        // Create the thumbnail.
+        $this->createThumbnail($asset->url, $filename);
+
+        return Storage::disk(config('assets.thumbnail_disk', 'public'))->url($filename);
     }
 
     /**
